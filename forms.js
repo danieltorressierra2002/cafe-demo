@@ -82,6 +82,35 @@
   }
 
   // ---------- Formulario de contacto ----------
+  // ---------- Filtros de escritura: el nombre solo lleva letras; el teléfono solo números ----------
+  // (el servidor vuelve a validar todo; esto solo evita que el cliente escriba caracteres no válidos)
+  const NAME_BAD = /[^\p{L}\p{M}' .-]/gu;
+  const PHONE_BAD = /[^\d\s()+-]/g;
+  function restrict(input, clean) {
+    input.addEventListener('input', () => {
+      const cleaned = clean(input.value);
+      if (cleaned !== input.value) {
+        const pos = input.selectionStart - (input.value.length - cleaned.length);
+        input.value = cleaned;
+        try { input.setSelectionRange(pos, pos); } catch { /* tipo sin selección */ }
+      }
+    });
+  }
+  document.querySelectorAll('#contact-form, #reservation-form').forEach((form) => {
+    const nameInput = form.elements['name'];
+    const phoneInput = form.elements['phone'];
+    if (nameInput) {
+      nameInput.title = 'Solo letras y espacios';
+      restrict(nameInput, (v) => v.replace(NAME_BAD, ''));
+    }
+    if (phoneInput) {
+      phoneInput.setAttribute('inputmode', 'tel');
+      phoneInput.title = 'Solo números, con el código de país si quieres (por ejemplo +53 5 123 4567)';
+      // el + solo puede ir al inicio
+      restrict(phoneInput, (v) => v.replace(PHONE_BAD, '').replace(/(?!^)\+/g, ''));
+    }
+  });
+
   bindForm('#contact-form', '/contact');
 
   // ---------- Formulario de reservas ----------

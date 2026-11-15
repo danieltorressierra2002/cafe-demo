@@ -825,6 +825,16 @@
   }
 
   // ---------- Eventos ----------
+  // El teléfono del local solo admite números, espacios, paréntesis, guiones y un + al inicio
+  (() => {
+    const ph = $('#settings-form').elements.phone;
+    if (!ph) return;
+    ph.setAttribute('inputmode', 'tel');
+    ph.addEventListener('input', () => {
+      const c = ph.value.replace(/[^\d\s()+-]/g, '').replace(/(?!^)\+/g, '');
+      if (c !== ph.value) ph.value = c;
+    });
+  })();
   $('#settings-form').addEventListener('submit', saveSettings);
   $('#login-form').addEventListener('submit', async (event) => {
     event.preventDefault();

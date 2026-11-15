@@ -715,6 +715,25 @@
     nav a { font-size: .56rem; letter-spacing: .12em; }
   }
 
+
+  /* Pantalla de carga: cuadrícula que se enciende en orden */
+  #loader { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; align-content: center; gap: 1.4rem;
+    background: var(--cream, #f7f1e6); color: var(--brown, #5a4230); transition: opacity .6s ease, visibility .6s ease;
+    animation: loader-failsafe .6s ease 8s forwards; }
+  #loader.done { opacity: 0; visibility: hidden; }
+  #loader .sq { display: grid; grid-template-columns: repeat(3, 14px); gap: 5px; }
+  #loader .sq i { width: 14px; height: 14px; background: currentColor; opacity: .2; animation: loader-sq 1.4s ease-in-out infinite; }
+  #loader .sq i:nth-child(1) { animation-delay: 0s; } #loader .sq i:nth-child(2) { animation-delay: .1s; } #loader .sq i:nth-child(3) { animation-delay: .2s; }
+  #loader .sq i:nth-child(6) { animation-delay: .3s; } #loader .sq i:nth-child(9) { animation-delay: .4s; } #loader .sq i:nth-child(8) { animation-delay: .5s; }
+  #loader .sq i:nth-child(7) { animation-delay: .6s; } #loader .sq i:nth-child(4) { animation-delay: .7s; } #loader .sq i:nth-child(5) { animation-delay: .8s; }
+  #loader .nm { font-family: var(--serif, Georgia, serif); font-size: 1.5rem; letter-spacing: .04em; }
+  @keyframes loader-sq { 0%, 100% { opacity: .2; } 30% { opacity: 1; } }
+  @keyframes loader-failsafe { to { opacity: 0; visibility: hidden; } }
+  /* Fotos de la carta: se acercan un poco al pasar el cursor */
+  .card .dish-photo { transition: transform .3s ease-out; }
+  .card.has-photo { overflow: hidden; }
+  @media (hover: hover) and (pointer: fine) { .card.has-photo:hover .dish-photo { transform: scale(1.05); } }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
     .reveal { opacity: 1; transform: none; }
@@ -723,6 +742,8 @@
 </style>
 </head>
 <body>
+<div id="loader" role="status" aria-live="polite" aria-label="Cargando"><div class="sq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="nm" data-loader-name>Cargando…</div></div>
+<script src="loader.js"></script>
 
 <!-- Navegación -->
 <nav id="nav">
