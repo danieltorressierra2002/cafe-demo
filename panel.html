@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Panel · Café La Intención (demo)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="panel.css">
+</head>
+<body>
+
+<!-- Inicio de sesión -->
+<main id="login-view" class="login" hidden>
+  <form id="login-form" class="login-card" autocomplete="on">
+    <p class="eyebrow">Panel de administración</p>
+    <h1>Bienvenido</h1>
+    <label class="field"><span>Email</span>
+      <input type="email" name="email" autocomplete="username" required maxlength="254"></label>
+    <label class="field"><span>Contraseña</span>
+      <input type="password" name="password" autocomplete="current-password" required maxlength="200"></label>
+    <button class="btn" type="submit">Entrar</button>
+    <p id="login-error" class="form-error" role="alert"></p>
+  </form>
+</main>
+
+<!-- Aplicación -->
+<div id="app-view" hidden>
+  <header class="topbar">
+    <p class="brand">Panel</p>
+    <nav class="tabs" aria-label="Secciones">
+      <button class="tab is-active" data-tab="reservations" type="button">Reservas</button>
+      <button class="tab" data-tab="messages" type="button">Mensajes <span id="unread-badge" class="badge" hidden></span></button>
+      <button class="tab" data-tab="menu" type="button">Menú</button>
+      <button class="tab" data-tab="qr" type="button">Código QR</button>
+      <button class="tab" data-tab="activity" type="button">Actividad</button>
+      <button class="tab" data-tab="settings" type="button">Ajustes</button>
+    </nav>
+    <div class="who">
+      <span id="admin-name"></span>
+      <button id="logout" class="link" type="button">Salir</button>
+    </div>
+  </header>
+
+  <main class="content">
+    <!-- Reservas -->
+    <section id="tab-reservations" aria-labelledby="h-reservations">
+      <h2 id="h-reservations">Reservas</h2>
+      <div class="filters">
+        <label class="field"><span>Estado</span>
+          <select id="f-status">
+            <option value="">Todos</option>
+            <option value="pending">Pendientes</option>
+            <option value="confirmed">Confirmadas</option>
+            <option value="completed">Completadas</option>
+            <option value="no_show">No asistieron</option>
+            <option value="cancelled">Canceladas</option>
+          </select></label>
+        <label class="field"><span>Fecha</span>
+          <input type="date" id="f-date"></label>
+        <div class="filter-actions">
+          <button id="f-today" class="btn btn-ghost" type="button">Hoy</button>
+          <button id="f-clear" class="btn btn-ghost" type="button">Limpiar</button>
+        </div>
+      </div>
+      <div id="reservations-list" class="list" aria-live="polite"></div>
+      <div id="reservations-pager" class="pager"></div>
+    </section>
+
+    <!-- Mensajes -->
+    <section id="tab-messages" aria-labelledby="h-messages" hidden>
+      <h2 id="h-messages">Mensajes</h2>
+      <div class="filters">
+        <label class="check"><input type="checkbox" id="f-unread"> <span>Solo no leídos</span></label>
+      </div>
+      <div id="messages-list" class="list" aria-live="polite"></div>
+      <div id="messages-pager" class="pager"></div>
+    </section>
+
+    <!-- Menú -->
+    <section id="tab-menu" aria-labelledby="h-menu" hidden>
+      <h2 id="h-menu">Menú</h2>
+      <form id="menu-form" class="menu-form" novalidate>
+        <h3 id="menu-form-title">Nuevo plato</h3>
+        <div class="grid2">
+          <label class="field"><span>Nombre</span><input type="text" name="name" maxlength="60" required></label>
+          <label class="field"><span>Precio (con la moneda)</span><input type="text" name="price" maxlength="20" placeholder="$3.50"></label>
+        </div>
+        <div class="grid2">
+          <label class="field"><span>Etiqueta corta (opcional)</span><input type="text" name="tag" maxlength="30" placeholder="Frío"></label>
+          <label class="field"><span>Descripción (opcional)</span><input type="text" name="description" maxlength="200"></label>
+        </div>
+        <div class="field photo-field">
+          <span>Foto (opcional)</span>
+          <div class="photo-row">
+            <img id="menu-photo-preview" class="photo-preview" alt="" hidden>
+            <div class="photo-actions">
+              <input type="file" id="menu-photo" accept="image/jpeg,image/png,image/webp">
+              <button class="btn btn-small btn-ghost" type="button" id="menu-photo-remove" hidden>Quitar foto</button>
+              <small class="hint">Se reduce sola; no hace falta preparar la foto.</small>
+            </div>
+          </div>
+        </div>
+        <label class="check"><input type="checkbox" name="isVisible" checked> <span>Visible en la web</span></label>
+        <div class="form-actions">
+          <button class="btn" type="submit" id="menu-submit">Añadir plato</button>
+          <button class="btn btn-ghost" type="button" id="menu-cancel" hidden>Cancelar edición</button>
+        </div>
+      </form>
+      <div id="menu-list" class="list" aria-live="polite"></div>
+    </section>
+
+    <!-- Actividad -->
+    <section id="tab-activity" aria-labelledby="h-activity" hidden>
+      <h2 id="h-activity">Actividad</h2>
+      <p class="hint">Lo que se ha hecho en el panel: quién, qué y cuándo. Se guardan los últimos 90 días.</p>
+      <div id="activity-list" class="list" aria-live="polite"></div>
+      <div id="activity-pager" class="pager"></div>
+    </section>
+
+    <!-- Ajustes -->
+    <section id="tab-qr" aria-labelledby="h-qr" hidden>
+      <h2 id="h-qr">Código QR</h2>
+      <p class="lead">Pégalo en las mesas, la puerta o el mostrador. Al escanearlo, el cliente ve la carta con fotos y precios, o va directo a reservar.</p>
+      <div class="qr-box">
+        <canvas id="qr-canvas" width="300" height="300" aria-label="Código QR"></canvas>
+        <div class="qr-side">
+          <label class="field"><span>Dirección de tu web (la de internet)</span><input type="text" id="qr-base" maxlength="150" spellcheck="false" placeholder="https://micafe.com"></label>
+          <p class="hint warn" id="qr-warn" hidden>Esta dirección solo funciona en este computador. Cuando la web esté en internet, cámbiala por la dirección real.</p>
+          <div class="grid2">
+            <label class="field"><span>¿Qué abre?</span>
+              <select id="qr-kind"><option value="carta">La carta (con botón de reservar)</option><option value="reservar">Directo a reservar</option></select>
+            </label>
+            <label class="field"><span>Mesa (opcional)</span><input type="text" id="qr-table" inputmode="numeric" maxlength="3" placeholder="Ej.: 5"></label>
+          </div>
+          <div class="grid2">
+            <label class="field"><span>Color del QR</span><input type="color" id="qr-color" value="#25392a"></label>
+            <label class="field"><span>Logo (opcional, en el centro)</span><input type="file" id="qr-logo" accept="image/png,image/jpeg,image/webp"></label>
+          </div>
+          <p class="hint" id="qr-info"></p>
+          <div class="form-actions">
+            <button class="btn" type="button" id="qr-poster">Descargar cartel</button>
+            <button class="btn btn-ghost" type="button" id="qr-png">Solo el QR</button>
+            <button class="btn btn-ghost" type="button" id="qr-logo-remove" hidden>Quitar logo</button>
+          </div>
+        </div>
+      </div>
+
+      <form id="qr-sheet-form" class="menu-form" novalidate>
+        <h3>Hoja con todas las mesas</h3>
+        <p class="hint">Genera páginas listas para imprimir (6 mesas por hoja) con un QR distinto por mesa. Siempre abren la carta.</p>
+        <div class="grid2">
+          <label class="field"><span>Desde la mesa</span><input type="number" id="qr-from" min="1" max="99" value="1"></label>
+          <label class="field"><span>Hasta la mesa</span><input type="number" id="qr-to" min="1" max="99" value="12"></label>
+        </div>
+        <div class="form-actions"><button class="btn" type="submit">Descargar hojas de mesas</button></div>
+      </form>
+    </section>
+
+    <section id="tab-settings" aria-labelledby="h-settings" hidden>
+      <h2 id="h-settings">Ajustes</h2>
+      <form id="settings-form" class="settings" novalidate>
+        <fieldset>
+          <legend>Tu negocio</legend>
+          <label class="field"><span>Nombre del negocio</span>
+            <input type="text" name="businessName" maxlength="80" required></label>
+          <label class="field"><span>Zona horaria</span>
+            <select name="timezone"></select>
+            <small>Es la hora de tu local. Los horarios y el "hoy" de las reservas se calculan con ella.</small></label>
+          <div class="grid2">
+            <label class="field"><span>Teléfono</span><input type="text" name="phone" maxlength="30"></label>
+            <label class="field"><span>Email público</span><input type="email" name="email" maxlength="254"></label>
+          </div>
+          <div class="grid2">
+            <label class="field"><span>WhatsApp del local (con código de país)</span>
+              <input type="text" name="whatsapp" inputmode="tel" maxlength="20" placeholder="5351234567">
+              <small>Aquí llegan las solicitudes de reserva. Solo números, por ejemplo 5351234567.</small></label>
+            <label class="field"><span>Código de país de tus clientes</span>
+              <input type="text" name="countryCode" inputmode="numeric" maxlength="4" placeholder="53">
+              <small>Se usa para abrir WhatsApp con números que se escriben sin el +.</small></label>
+          </div>
+          <div class="grid2">
+            <label class="field"><span>Dirección</span><input type="text" name="address" maxlength="160"></label>
+            <label class="field"><span>Instagram (usuario)</span><input type="text" name="instagram" maxlength="60" placeholder="@minegocio"></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Horario de apertura</legend>
+          <div id="hours-grid" class="hours-grid"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Reservas</legend>
+          <div class="grid3">
+            <label class="field"><span>Asientos totales</span><input type="number" name="totalSeats" min="1" max="500"></label>
+            <label class="field"><span>Máx. personas por reserva</span><input type="number" name="maxPartySize" min="1" max="20"></label>
+            <label class="field"><span>Duración de la mesa (min)</span><input type="number" name="durationMinutes" min="30" max="240" step="15"></label>
+          </div>
+          <div class="grid3">
+            <label class="field"><span>Un horario cada</span>
+              <select name="slotMinutes"><option value="15">15 minutos</option><option value="30">30 minutos</option><option value="60">60 minutos</option></select></label>
+            <label class="field"><span>Reservar hasta (días)</span><input type="number" name="maxDaysAhead" min="1" max="365"></label>
+            <label class="field"><span>Anticipación mínima (min)</span><input type="number" name="minLeadMinutes" min="0" max="1440" step="15"></label>
+          </div>
+          <label class="check"><input type="checkbox" name="autoConfirm"> <span>Confirmar las reservas automáticamente</span></label>
+          <label class="field" style="margin-top:1.3rem"><span>Email para recibir avisos (opcional)</span>
+            <input type="email" name="notifyEmail" maxlength="254"></label>
+        </fieldset>
+
+        <button class="btn" type="submit">Guardar cambios</button>
+      </form>
+    </section>
+  </main>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="qr.js" defer></script>
+<script src="demo-api.js"></script>
+<script src="panel.js" defer></script>
+</body>
+</html>

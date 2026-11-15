@@ -1,0 +1,32 @@
+CAFÉ LA INTENCIÓN — DEMO (marca ficticia)
+
+CÓMO VERLO
+  1. Descomprime la carpeta.
+  2. Haz doble clic en index.html (se abre en tu navegador).
+  3. Para ver el panel del dueño: botón "Abrir el panel de administración" (abajo en la página)
+     o abre panel.html. Entra con cualquier email y contraseña.
+
+QUÉ PUEDES PROBAR
+  - Reservar una mesa en la web y verla aparecer en el panel (Reservas).
+  - Confirmar, cancelar o marcar reservas; leer y borrar mensajes del formulario de contacto.
+  - Menú: añadir, editar, ordenar, ocultar y borrar platos. La web cambia al instante.
+  - Ajustes: zona horaria, horario por día, asientos, datos de contacto y WhatsApp.
+  - Menú con fotos: al editar un plato puedes subir una foto (se reduce sola) o quitarla.
+  - Reservas por WhatsApp: el email es opcional; al reservar sale el botón "Enviar también por WhatsApp",
+    y en el panel cada reserva tiene su botón de WhatsApp para responder al cliente. (El número de la demo es ficticio.)
+  - Botón flotante "Escríbenos" (WhatsApp) en toda la web y sugerencias opcionales en el pie de página.
+  - Pestaña "Código QR" del panel: genera el QR de la carta o de reservas, QR por mesa y carteles descargables.
+    Para ver la carta como la verá el cliente al escanear: carta.html
+  - Pestaña "Actividad": historial de lo que se hace en el panel.
+
+NOTAS
+  - Es una demostración: los datos se guardan solo en este navegador (botón "Reiniciar demo" para empezar de cero).
+  - No envía emails y no usa servidor ni base de datos. El producto real sí: reservas con control de aforo,
+    emails, protección anti-spam, panel con contraseña segura y base de datos PostgreSQL.
+  - Necesita internet solo para cargar las tipografías de Google (sin ellas se ve con tipografías de respaldo).
+
+PARA PUBLICARLO ONLINE (gratis): sube esta carpeta a Netlify Drop, Cloudflare Pages o GitHub Pages.
+
+
+ESTA VERSIÓN NO TIENE CARPETAS: todos los archivos van juntos, uno al lado del otro.
+El panel está en panel.html y la carta del QR en carta.html.
