@@ -470,11 +470,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const style = document.createElement('style');
   style.textContent = `
     .demo-pill{position:fixed;z-index:9999;left:50%;bottom:16px;transform:translateX(-50%);display:flex;gap:.9rem;align-items:center;flex-wrap:wrap;justify-content:center;
-      max-width:calc(100vw - 24px);padding:.55rem 1rem;background:#2f2219;color:#f7f1e6;font:400 12px/1.4 'Jost',system-ui,sans-serif;letter-spacing:.04em;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-    .demo-pill a,.demo-pill button{color:#f7f1e6;background:none;border:0;padding:0;font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+      max-width:calc(100vw - 24px);padding:.55rem 1rem;background:#12301F;color:#EEE2CB;font:400 12px/1.4 'Jost',system-ui,sans-serif;letter-spacing:.04em;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .demo-pill a,.demo-pill button{color:#EEE2CB;background:none;border:0;padding:0;font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
     .demo-pill{gap:.5rem .9rem}@media(max-width:520px){.demo-pill span{display:none}}
     body.is-carta .demo-pill{bottom:auto;top:12px}
-    .demo-pill strong{font-weight:500;letter-spacing:.14em;text-transform:uppercase;font-size:10px;color:#d9c5a3}`;
+    .demo-pill strong{font-weight:500;letter-spacing:.14em;text-transform:uppercase;font-size:10px;color:#E2D4B5}`;
   document.head.append(style);
 
   const pill = document.createElement('div');
